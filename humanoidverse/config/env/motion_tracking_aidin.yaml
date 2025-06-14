@@ -9,7 +9,7 @@ env:
   config:
     max_episode_length_s: 20
     termination:
-      terminate_by_contact: False
+      terminate_by_contact: True
       terminate_by_gravity: True
       terminate_by_low_height: False
       terminate_when_motion_end: True
@@ -31,12 +31,12 @@ env:
       terminate_when_close_to_torque_limit: 0.25
     termination_curriculum:
       terminate_when_motion_far_curriculum: False
-      terminate_when_motion_far_initial_threshold: 1.5
-      terminate_when_motion_far_threshold_max: 2.0
+      terminate_when_motion_far_initial_threshold: 2.5
+      terminate_when_motion_far_threshold_max: 5.0
       terminate_when_motion_far_threshold_min: 0.25
       terminate_when_motion_far_curriculum_degree: 0.0000025
-      terminate_when_motion_far_curriculum_level_down_threshold: 40
-      terminate_when_motion_far_curriculum_level_up_threshold: 42
+      terminate_when_motion_far_curriculum_level_down_threshold: 62
+      terminate_when_motion_far_curriculum_level_up_threshold: 64
 
     resample_motion_when_training: True
     resample_time_interval_s: 2000

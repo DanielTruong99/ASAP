@@ -400,10 +400,16 @@ robot:
     #     rot: [1.0, 0.0, 0.0, 0.0] # w x y z
 
 
-    # motion_tracking_link:
-    #   # # - "left_hand_link"
-    #   # # - "right_hand_link"
-    #   # - "head_link"
+    motion_tracking_link:
+      # - "left_hand_link"
+      # - "right_hand_link"
+      - "Pelvis"
+      - "L_thigh"
+      - "L_calf"
+      - "R_thigh"
+      - "R_calf"
+      - "L_elbow"
+      - "R_elbow"
 
     lower_body_link:
       # Base
@@ -483,25 +489,27 @@ robot:
     visualization:
       customize_color : True
       marker_joint_colors : 
-      - [0.929, 0.867, 0.437] # pelvis
-      - [0.929, 0.867, 0.437] # left_hip_yaw_joint
-      - [0.929, 0.867, 0.437] # left_hip_roll_joint
-      - [0.929, 0.867, 0.437] # left_hip_pitch_joint
-      - [0.929, 0.867, 0.437] # left_knee_joint
-      - [0.929, 0.867, 0.437] # left_ankle_pitch_joint
-      - [0.929, 0.867, 0.437] # left_ankle_roll_joint
-      - [0.929, 0.867, 0.437] # right_hip_yaw_joint
-      - [0.929, 0.867, 0.437] # right_hip_roll_joint
-      - [0.929, 0.867, 0.437] # right_hip_pitch_joint
-      - [0.929, 0.867, 0.437] # right_knee_joint
-      - [0.929, 0.867, 0.437] # right_ankle_pitch_joint
-      - [0.929, 0.867, 0.437] # right_ankle_roll_joint
-      - [0.929, 0.867, 0.437] # waist_yaw_joint
-      - [0.929, 0.867, 0.437] # waist_roll_joint
-      - [0.929, 0.867, 0.437] # torso_joint (waist_pitch_link)
-      - [0.929, 0.867, 0.437] # left_shoulder_pitch_joint
-      - [0.929, 0.867, 0.437] # left_shoulder_roll_joint
-      - [0.929, 0.867, 0.437] # left_shoulder_yaw_joint
+      - [0, 0.351, 0.613] # Pelvis
+      - [0.929, 0.867, 0.437] # L_hip
+      - [0.929, 0.867, 0.437] # L_hip2
+      - [0, 0.351, 0.613] # L_thigh
+      - [0, 0.351, 0.613] # L_calf
+      - [0, 0.351, 0.613] # L_toe
+      - [0.929, 0.867, 0.437] # R_hip
+      - [0.929, 0.867, 0.437] # R_hip2
+      - [0, 0.351, 0.613] # R_thigh
+      - [0, 0.351, 0.613] # R_calf
+      - [0, 0.351, 0.613] # R_toe
+      - [0.929, 0.867, 0.437]     # Torso
+      - [0.929, 0.867, 0.437] # L_shoulder_pitch
+      - [0, 0.351, 0.613]     # L_shoulder_roll
+      - [0.929, 0.867, 0.437] # L_shoulder_yaw
+      - [0, 0.351, 0.613] # L_elbow
+      - [0.929, 0.867, 0.437] # R_shoulder_pitch
+      - [0, 0.351, 0.613]     # R_shoulder_roll
+      - [0.929, 0.867, 0.437] # R_shoulder_yaw
+      - [0, 0.351, 0.613] # R_elbow
+      # - [0.929, 0.867, 0.437] # left_shoulder_yaw_joint
       # - [0.929, 0.867, 0.437] # left_elbow_joint
       # - [0.929, 0.867, 0.437] # right_shoulder_pitch_joint
       # - [0.929, 0.867, 0.437] # right_shoulder_roll_joint

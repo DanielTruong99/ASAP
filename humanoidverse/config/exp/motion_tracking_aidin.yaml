@@ -5,3 +5,4 @@ defaults:
   - /env: motion_tracking_aidin
 
 experiment_name: TEST_Motion_Tracking
+checkpoint: logs/MotionTracking/20250613_152702-MotionTracking_CR7-motion_tracking-aidin_4dof_arm/model_23300.pt

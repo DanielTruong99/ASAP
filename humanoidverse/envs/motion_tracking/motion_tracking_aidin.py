@@ -10,6 +10,7 @@ from isaac_utils.rotations import (
     calc_heading_quat,
     quat_mul,
     quat_conjugate,
+    quat_normalize,
     quat_to_angle_axis,
     quat_rotate_inverse,
     xyzw_to_wxyz,
@@ -367,17 +368,17 @@ class LeggedRobotAidinMotionTracking(LeggedRobotBase):
     def _log_motion_tracking_info(self):
         upper_body_diff = self.dif_global_body_pos[:, self.upper_body_id, :]
         lower_body_diff = self.dif_global_body_pos[:, self.lower_body_id, :]
-        # vr_3point_diff = self.dif_global_body_pos[:, self.motion_tracking_id, :]
+        vr_3point_diff = self.dif_global_body_pos[:, self.motion_tracking_id, :]
         joint_pos_diff = self.dif_joint_angles
 
         upper_body_diff_norm = upper_body_diff.norm(dim=-1).mean()
         lower_body_diff_norm = lower_body_diff.norm(dim=-1).mean()
-        # vr_3point_diff_norm = vr_3point_diff.norm(dim=-1).mean()
+        vr_3point_diff_norm = vr_3point_diff.norm(dim=-1).mean()
         joint_pos_diff_norm = joint_pos_diff.norm(dim=-1).mean()
 
         self.log_dict["upper_body_diff_norm"] = upper_body_diff_norm
         self.log_dict["lower_body_diff_norm"] = lower_body_diff_norm
-        # self.log_dict["vr_3point_diff_norm"] = vr_3point_diff_norm
+        self.log_dict["vr_3point_diff_norm"] = vr_3point_diff_norm
         self.log_dict["joint_pos_diff_norm"] = joint_pos_diff_norm
         
 
@@ -607,11 +608,11 @@ class LeggedRobotAidinMotionTracking(LeggedRobotBase):
     
         return r_body_pos
     
-    # def _reward_teleop_vr_3point(self):
-    #     vr_3point_diff = self.dif_global_body_pos[:, self.motion_tracking_id, :]
-    #     vr_3point_dist = (vr_3point_diff**2).mean(dim=-1).mean(dim=-1)
-    #     r_vr_3point = torch.exp(-vr_3point_dist / self.config.rewards.reward_tracking_sigma.teleop_vr_3point_pos)
-    #     return r_vr_3point
+    def _reward_teleop_vr_3point(self):
+        vr_3point_diff = self.dif_global_body_pos[:, self.motion_tracking_id, :]
+        vr_3point_dist = (vr_3point_diff**2).mean(dim=-1).mean(dim=-1)
+        r_vr_3point = torch.exp(-vr_3point_dist / self.config.rewards.reward_tracking_sigma.teleop_vr_3point_pos)
+        return r_vr_3point
 
     def _reward_teleop_body_position_feet(self):
 

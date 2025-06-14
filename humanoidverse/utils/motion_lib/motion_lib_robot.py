@@ -140,11 +140,19 @@ class LocoMujocoMotionLibRobot(MotionLibBase):
             self._motion_actions = torch.cat(_motion_actions, dim=0).float().to(self._device)
         self._num_motions = len(motions)
         
-
+        motion_body_names = self._motion_data_load["body_names"].tolist()
+        motion_body_names.remove("world")  # Remove the world body
+        root_body_index = motion_body_names.index("root")
+        motion_body_names[root_body_index] = "Pelvis"  # Replace the root body with the Pelvis body
+        simulator_body_names = self.simulator.body_names
+        body_ids = [motion_body_names.index(name) for name in simulator_body_names]
         self.gts = torch.from_numpy(np.concatenate([m["xpos"] for m in motions], axis=0)).float().to(self._device)
         self.gts = self.gts[:, 1:, :]  # Exclude the world body position
+        self.gts = self.gts[:, body_ids, :]  # Reorder the indexes to match the simulator body names
         self.grs = torch.from_numpy(np.concatenate([m["xquat"] for m in motions], axis=0)).float().to(self._device)
         self.grs = self.grs[:, 1:, :]  # Exclude the world body quaternion
+        self.grs = self.grs[:, body_ids, :]  # Reorder the indexes to match the simulator body names
+        self.grs = self.grs[:, :, [1, 2, 3, 0]]  # Reorder the quaternion to match the simulator body names
 
         root_body_index = self._motion_data_load["body_names"].tolist().index("root")
         self.grvs = torch.from_numpy(np.concatenate([m["cvel"][:, root_body_index, :3] for m in motions], axis=0)).float().to(self._device)
@@ -152,8 +160,10 @@ class LocoMujocoMotionLibRobot(MotionLibBase):
 
         self.gavs = torch.from_numpy(np.concatenate([m["cvel"][:, :, 3:] for m in motions], axis=0)).float().to(self._device)
         self.gavs = self.gavs[:, 1:, :]  # Exclude the world joint position
+        self.gavs = self.gavs[:, body_ids, :]  # Reorder the indexes to match the simulator body names
         self.gvs = torch.from_numpy(np.concatenate([m["cvel"][:, :, :3] for m in motions], axis=0)).float().to(self._device)
         self.gvs = self.gvs[:, 1:, :]  # Exclude the world joint angular velocity
+        self.gvs = self.gvs[:, body_ids, :]  # Reorder the indexes to match the simulator body names
         
         motion_joint_names = self._motion_data_load["joint_names"].tolist()[1:]  # Exclude the root joint
         simulator_joint_names = self.simulator.dof_names
